@@ -10,7 +10,7 @@
     if(empty($_SESSION['wrong_guess'])){
         $_SESSION['wrong_guess'] = array();
     }
-
+    $_SESSION['theWord'] = new Word("Torpedo");
 
     $app = new Silex\Application();
 
@@ -18,13 +18,20 @@
     ));
 
     $app->get("/", function() use ($app) {
-            $testWord = new Word("Torpedo");
-
+            $testWord = $_SESSION['theWord'];
             $splitWord = $testWord->hideWord();
 
 
 
         return $app['twig']->render('index.html.twig', array('letters'=> $splitWord));
+    });
+
+    $app->post("/game", function() use ($app){
+        $guessed_letter = $_POST['guess'];
+        $testWord = $_SESSION['theWord'];
+        $checkWord = $testWord->checkLetter($guessed_letter);
+
+        return $app['twig']->render('index.html.twig', array('letters' =>$checkWord));
     });
 
     return $app;

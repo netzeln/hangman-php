@@ -30,4 +30,20 @@ class Word
 
         return $wordAsDash;
     }
+
+    function checkLetter($guessLetter)
+    {
+        $wordSplit = str_split(strtoupper($this->secretWord));
+        $wordWithNewLetter = array();
+
+        foreach ($wordSplit as $letter)
+        {
+            if ($letter = $guessLetter)
+            {
+                array_push($wordWithNewLetter, $guessLetter);
+            } else {
+                array_push($wordWithNewLetter, "_");
+            }
+        } return $wordWithNewLetter;
+    }
 } ?>
